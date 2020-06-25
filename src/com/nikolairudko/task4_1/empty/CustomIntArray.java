@@ -1,5 +1,9 @@
 package com.nikolairudko.task4_1.empty;
 
+import com.nikolairudko.task4_1.exception.CustomArrayException;
+
+import java.util.Arrays;
+
 public class CustomIntArray {
     private int[] numberArray;
 
@@ -12,13 +16,24 @@ public class CustomIntArray {
     }
 
     public void setNumberArray(int[] numberArray) {
-        this.numberArray = numberArray;
+        this.numberArray = numberArray != null ? numberArray : new int[0];
     }
 
-
-    public void setElement(int element, int index) {
+    public void setElement(int element, int index) throws CustomArrayException {
         if (isCorrectIndex(index)) {
-            this.numberArray[index] = index;
+            this.numberArray[index] = element;
+        } else {
+            throw new ClassCastException(String.format("Array overrun, array size 10, passed index 2.",
+                    numberArray.length, index));
+        }
+    }
+
+    public int getElement(int index) throws CustomArrayException {
+        if (isCorrectIndex(index)) {
+            return this.numberArray[index];
+        } else {
+            throw new ClassCastException(String.format("Array overrun, array size 10, passed index 2.",
+                    numberArray.length, index));
         }
     }
 
@@ -26,19 +41,50 @@ public class CustomIntArray {
         return index >= 0 && index < numberArray.length;
     }
 
-
-    //todo
     public int length() {
         return numberArray.length;
     }
 
-
-
     //TODO
-    //equals()
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
-    //hasCode()
+        CustomIntArray array = (CustomIntArray) obj;
 
-    //toString()
+        if (numberArray.length != array.length()) {
+            return false;
+        }
+
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                if (numberArray[i] != array.getElement(i)) {
+
+                }
+            } catch (CustomArrayException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    // TODO: 25.06.2020
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(numberArray);
+    }
+
+    // FIXME: 25.06.2020 
+    public String toString() {
+        return String.format("Arrays");                
+    }
 }
 
