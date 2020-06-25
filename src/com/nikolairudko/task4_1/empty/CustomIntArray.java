@@ -76,15 +76,26 @@ public class CustomIntArray {
         return true;
     }
 
-    // TODO: 25.06.2020
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(numberArray);
+    private String customArrayInfo() {
+        StringBuilder info = new StringBuilder();
+        for (int element : numberArray) {
+            info.append(element).append(" ");
+        }
+        return info.toString();
     }
 
-    // FIXME: 25.06.2020 
+    @Override
+    public int hashCode() {
+        int result = 1;
+        for (int element : numberArray) {
+            result = result + element * 31;
+        }
+        return result;
+    }
+
     public String toString() {
-        return String.format("Arrays");                
+        return String.format("Arrays size -%d,%nElements: %n[%s]",
+                numberArray.length, customArrayInfo());
     }
 }
 
