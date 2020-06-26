@@ -2,8 +2,6 @@ package com.nikolairudko.task4_1.empty;
 
 import com.nikolairudko.task4_1.exception.CustomArrayException;
 
-import java.util.Arrays;
-
 public class CustomIntArray {
     private int[] numberArray;
 
@@ -11,12 +9,40 @@ public class CustomIntArray {
         this.numberArray = new int[10];
     }
 
-    public CustomIntArray(int[] numberArray) {
+    public CustomIntArray(int size) {
+        if (size < 0) {
+            throw new ClassCastException("A null object was passed on.");
+        }
+        this.numberArray = new int[size];
+    }
+
+    public CustomIntArray(int[] numberArray) throws CustomArrayException {
+        if (numberArray == null) {
+            throw new ClassCastException("A null object was passed on.");
+        }
         this.numberArray = numberArray;
     }
 
+    public  CustomIntArray(CustomIntArray numberArray) throws CustomArrayException{
+        if (numberArray == null) {
+            throw new ClassCastException("A null object was passed on.");
+        }
+        this.numberArray = numberArray.getNumberArray();
+    }
+
     public void setNumberArray(int[] numberArray) {
-        this.numberArray = numberArray != null ? numberArray : new int[0];
+        if (numberArray == null) {
+            throw new ClassCastException("A null object was passed on.");
+        }
+        this.numberArray = numberArray;
+    }
+
+    public int[] getNumberArray() {
+        int[] cloneArray = new int[numberArray.length];
+        for (int i = 0; i < cloneArray.length; i++) {
+            cloneArray[i] = numberArray[i];
+        }
+        return cloneArray;
     }
 
     public void setElement(int element, int index) throws CustomArrayException {
@@ -45,7 +71,6 @@ public class CustomIntArray {
         return numberArray.length;
     }
 
-    //TODO
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -63,11 +88,10 @@ public class CustomIntArray {
         if (numberArray.length != array.length()) {
             return false;
         }
-
         for (int i = 0; i < array.length(); i++) {
             try {
                 if (numberArray[i] != array.getElement(i)) {
-
+                    return false;
                 }
             } catch (CustomArrayException e) {
                 e.printStackTrace();
@@ -94,8 +118,7 @@ public class CustomIntArray {
     }
 
     public String toString() {
-        return String.format("Arrays size -%d,%nElements: %n[%s]",
+        return String.format("Arrays size - %d,%nElements: %n[ %s]",
                 numberArray.length, customArrayInfo());
     }
 }
-
